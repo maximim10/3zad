@@ -12,7 +12,7 @@
 #include "Vector.hpp"
 //#include "Vector.cpp"
 #include "VectorHori.hpp"
-//#include "VectorHori.cpp"
+#include "VectorHori.cpp"
 #include "VectorVert.hpp"
 //#include "VectorVert.cpp"
 #include "Factory.hpp"
@@ -24,13 +24,14 @@ using namespace VECTOR_HORI_VERT;
 int main() {
 
   try {
+      VectorHori operator+(Vector& first, Vector& other);
 
     int counter=300;
 
-    #pragma omp parallel
+
     {
-        # pragma omp for
-        for (int ii=0;ii<counter;ii++){
+        //# pragma omp for
+        //for (int ii=0;ii<counter;ii++){
             std::map < std::string, Factory* > factoryMap;
             //factoryMap["Hori"] = std::make_unique<FactoryHori<EL_TYPE>>();    // unexpectedly make_unique() is C++14
             factoryMap["Hori"] = new FactoryHori;
@@ -76,13 +77,14 @@ int main() {
             }
 
             inputFile.close();
-
-            /* range-based loop */
+            VectorVert v=(*vectorVector[0]+*vectorVector[1]);
+            v.Output();
+            /* range-based loop
             for(int i=0;i<vectorVector.size();i++){
                 vectorVector[i]->Output();
-            }
+            }*/
 
-        }
+        //}
     }
     return 0;
   }

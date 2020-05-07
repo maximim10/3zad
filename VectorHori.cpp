@@ -82,16 +82,44 @@ namespace VECTOR_HORI_VERT {
     int mm=std::max(first.L, other.L)-std::min(first.L, other.L);
     if ((first.znak * other.znak) > 0){
         temp->znak=other.znak;
-        for(int i=std::max(first.L, other.L)-1;i>=0;i--){
-            temp->vector_.push_back((first.L > other.L ? first.vector_[i] : (i-mm>=0 ? first.vector_[i-mm] : 0)) +
-                            (other.L > first.L ? other.vector_[i] : (i-mm>=0 ? other.vector_[i-mm] : 0)));
+        #pragma omp parallel
+        {
+            #pragma omp parallel for
+            for(int i=std::max(first.L, other.L)-1;i>=0;i--){
+                temp->vector_.push_back((first.L > other.L ? first.vector_[i] : (i-mm>=0 ? first.vector_[i-mm] : 0)) +
+                                (other.L > first.L ? other.vector_[i] : (i-mm>=0 ? other.vector_[i-mm] : 0)));
+            }
         }
-        for(int i=std::max(first.L,other.L)-1;i>0;i--){
+        #pragma omp parallel
+        {
+            const int mx=std::max(first.L,other.L)-1;
+            const int thrs=2;
+            const int del=mx/thrs+(mx%thrs ? 1 : 0);
+            #pragma omp parallel for num_threads(thrs)
+            for (int core=0;core<thrs;++core){
+                for(int i=mx-core*del;(i>mx-(core+1)*del)&&(i>0);--i){
+                    if (temp->vector_[i]>9){
+                        temp->vector_[i-1]++;
+                        temp->vector_[i]-=10;
+                    }
+                }
+                int i=mx-(core+1)*del;
+                while (i>0){
+                    if (temp->vector_[i]>9){
+                        temp->vector_[i-1]++;
+                        temp->vector_[i]-=10;
+                    }else{
+                        break;
+                    }
+                }
+            }
+        }
+        /*for(int i=std::max(first.L,other.L)-1;i>0;i--){
             if (temp->vector_[i]>9){
                 temp->vector_[i-1]++;
                 temp->vector_[i]-=10;
             }
-        }
+        }*/
         if(temp->vector_[0]>9){
             std::deque <int> vtemp;
             for (int i=std::max(first.L, other.L);i>0;i--){
