@@ -12,7 +12,7 @@
 #include "Vector.hpp"
 //#include "Vector.cpp"
 #include "VectorHori.hpp"
-#include "VectorHori.cpp"
+//#include "VectorHori.cpp"
 #include "VectorVert.hpp"
 //#include "VectorVert.cpp"
 #include "Factory.hpp"
@@ -77,7 +77,7 @@ int main() {
             }
 
             inputFile.close();
-            VectorVert v=(*vectorVector[0]+*vectorVector[1]);
+            VectorHori v=(*vectorVector[0]+*vectorVector[1]);
             v.Output();
             /* range-based loop
             for(int i=0;i<vectorVector.size();i++){
