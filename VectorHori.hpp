@@ -24,4 +24,6 @@ protected:
     VectorHori(const VectorHori& other);
     ~VectorHori();
   };
+  VectorHori operator+(Vector& first, Vector& other);
+  VectorHori operator-(Vector& first, Vector& other);
 }
