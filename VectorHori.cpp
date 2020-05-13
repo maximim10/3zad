@@ -15,7 +15,6 @@ namespace VECTOR_HORI_VERT {
 
     fil.close();
   }
-    VectorHori operator+(Vector& first, Vector& other);
   VectorHori operator-(Vector& first, Vector& other) {
     Vector* temp = new VectorHori(first.filename_, 1);
     temp->L=std::max(first.L,other.L);
