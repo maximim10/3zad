@@ -46,21 +46,9 @@ namespace VECTOR_HORI_VERT {
         this->vector_.push_front(N%10);
         N=N/10;
     }
-    int j=0;
-    for (int i=0; i<L-1; i++){
-        if (vector_[i]>0){
-            break;
-        }else{
-            j+=1;
-        }
-    }
-    if (j>0){
-        std::deque <int> vtemp;
-        for (int i=0;i<L-j;i++){
-            vtemp.push_back(vector_[i+j]);
-        }
-        this->vector_=vtemp;
-        L=L-j;
+    while (vector_[0]==0){
+        L;
+        vector_.pop_front();
     }
   }
   Vector::Vector(const Vector& other) {
@@ -76,7 +64,7 @@ namespace VECTOR_HORI_VERT {
     L= other.L;
     znak=other.znak;
     vector_.clear();
-    for (unsigned int i = 0; i < L; i++) {
+    for (int i = 0; i < L; i++) {
       vector_.push_back(other.vector_[i]);
     }
   }

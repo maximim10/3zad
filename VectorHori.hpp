@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <fstream>
@@ -15,7 +16,7 @@ protected:
 
   public:
     using Vector::operator=;
-    virtual void Output() const;// override;
+    void Output() const override;
     friend VectorHori operator+(Vector& first, Vector& second);
     friend VectorHori operator-(Vector& first, Vector& second);
     VectorHori(const std::string& filename, int N);
@@ -25,5 +26,5 @@ protected:
     ~VectorHori();
   };
   VectorHori operator+(Vector& first, Vector& other);
-  VectorHori operator-(Vector& first, Vector& other);
+VectorHori operator-(Vector& first, Vector& other);
 }

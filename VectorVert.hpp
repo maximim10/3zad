@@ -1,4 +1,5 @@
 #pragma once
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <fstream>
@@ -14,7 +15,7 @@ namespace VECTOR_HORI_VERT {
   class VectorVert : public Vector {
   public:
     using Vector::operator=;
-    virtual void Output() const;
+    void Output() const override;
     VectorVert(const std::string& filename);
     VectorVert(const std::string& filename, int N);
     VectorVert(const Vector& other);

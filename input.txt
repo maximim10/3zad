@@ -1,2 +1,2 @@
-Vert in1.txt 1235
-Vert in2.txt 1488
+Vert in1.txt 57
+Vert in2.txt 11

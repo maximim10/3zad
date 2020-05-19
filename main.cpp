@@ -1,4 +1,5 @@
 #include <cmath>
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -20,75 +21,69 @@
 #include "FactoryVert.hpp"
 
 using namespace VECTOR_HORI_VERT;
-
-int main() {
-
-  try {
-      VectorHori operator+(Vector& first, Vector& other);
-
-    int counter=300;
-
-
+int autotest(){
+    try
     {
-        //# pragma omp for
-        //for (int ii=0;ii<counter;ii++){
-            std::map < std::string, Factory* > factoryMap;
-            //factoryMap["Hori"] = std::make_unique<FactoryHori<EL_TYPE>>();    // unexpectedly make_unique() is C++14
-            factoryMap["Hori"] = new FactoryHori;
-            //factoryMap["Vert"] = std::make_unique<FactoryVert<EL_TYPE>>();
-            factoryMap["Vert"] = new FactoryVert;
-
-            /* smart pointer - shared_ptr */
-            std::vector< Vector* > vectorVector;
-            const std::string inputFileName = "input.txt";
-
-            /*
-            * Format of input file is:
-            * Hori file1.txt 1 2 3
-            * Vert file2.txt 8 9 10
-            */
-
-            std::ifstream inputFile(inputFileName.c_str(), std::ios_base::in);
-            if (!inputFile.is_open()) {
-                throw std::invalid_argument("Error! Cannot open file " + inputFileName + "!\n");
-            }
-
-            std::string tmpString;
-
-            while (std::getline(inputFile, tmpString)) {
-              std::stringstream strStream;
-              strStream << tmpString;
-
-              std::string vectorType;
-              strStream >> vectorType;
-              //std::cout << vectorType << std::endl;
-              std::string fileName;
-              strStream >> fileName;
-              int el;
-              strStream >> el;
-              std::map< std::string, Factory* >::iterator curFactory;
-              curFactory = factoryMap.find(vectorType);
-              if (curFactory == factoryMap.end()) {
-                throw std::invalid_argument("Error! Wrong type of+ vector in file input.txt!\n");
-              }
-
-              Vector* curVect = curFactory->second->Create(fileName, el);
-              vectorVector.push_back(curVect);
-            }
-
-            inputFile.close();
-            VectorHori v=(*vectorVector[0]+*vectorVector[1]);
-            v.Output();
-            /* range-based loop
-            for(int i=0;i<vectorVector.size();i++){
-                vectorVector[i]->Output();
-            }*/
-
-        //}
+    Vector* v1=new VectorHori("Test.txt",73);
+    Vector* v2=new VectorHori("Text.txt",57);
+    VectorHori v4=*v1-*v2;
+    VectorHori v3=*v1+*v2;
+    if ( (v3.vector_[0]==1) && (v3.vector_[1]==3) && (v3.vector_[2]==0) && (v3.vector_.size()==3)
+      && (v4.vector_[0]==1) && (v4.vector_[1]==6) && (v4.vector_.size()==2) ){
+        delete v2;
+        delete v1;
+        return 0;
+    }else{
+        v4.Output();
+        delete v2;
+        delete v1;
+        return 1;
     }
-    return 0;
+    }
+    catch (const std::exception& e) {
+        std::cerr << e.what() << std::endl;
+        return -1;
+    }
+}
+int main() {
+    try {
+        int aut=autotest();
+        if (aut!=0){
+        std::cout<<"HMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"<<std::endl;
+        return -1;
+        }
+        std::map < std::string, Factory* > factoryMap;
+        factoryMap["Hori"] = new FactoryHori;
+        factoryMap["Vert"] = new FactoryVert;
+        std::vector< Vector* > vectorVector;
+        const std::string inputFileName = "input.txt";
+        std::ifstream inputFile(inputFileName.c_str(), std::ios_base::in);
+        if (!inputFile.is_open()) {
+            throw std::invalid_argument("Error! Cannot open file " + inputFileName + "!\n");
+        }
+        std::string tmpString;
+        while (std::getline(inputFile, tmpString)) {
+            std::stringstream strStream;
+            strStream << tmpString;
+            std::string vectorType;
+            strStream >> vectorType;
+            std::string fileName;
+            strStream >> fileName;
+            int el;
+            strStream >> el;
+            std::map< std::string, Factory* >::iterator curFactory;
+            curFactory = factoryMap.find(vectorType);
+            if (curFactory == factoryMap.end()) {
+                throw std::invalid_argument("Error! Wrong type of+ vector in file input.txt!\n");
+            }
+            Vector* curVect = curFactory->second->Create(fileName, el);
+            vectorVector.push_back(curVect);
+        }
+        inputFile.close();
+        VectorHori v=(*vectorVector[0]+*vectorVector[1]);
+        v.Output();
+        return 0;
   }
-
   catch (const std::exception& e) {
     std::cerr << e.what() << std::endl;
     return 1;
