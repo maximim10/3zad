@@ -9,5 +9,8 @@ public:
     virtual Vector* Create (const std::string& filename, int N){
         return new VectorHori (filename, N);
     }
+    virtual Vector* Create (const std::string& filename, const std::string& N){
+        return new VectorHori (filename, N);
+    }
 };
 }

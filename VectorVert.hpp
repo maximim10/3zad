@@ -18,6 +18,7 @@ namespace VECTOR_HORI_VERT {
     void Output() const override;
     VectorVert(const std::string& filename);
     VectorVert(const std::string& filename, int N);
+    VectorVert(const std::string& filename, const std::string& N);
     VectorVert(const Vector& other);
     ~VectorVert();
   };

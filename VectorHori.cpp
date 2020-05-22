@@ -79,7 +79,6 @@ namespace VECTOR_HORI_VERT {
     }
   }
   VectorHori operator+(Vector& first, Vector& other) {
-
     Vector* temp;                                                                                                                       \
     temp = new VectorHori(first.get_filename(),1);
     temp->L=std::max(first.L, other.L);
@@ -87,22 +86,20 @@ namespace VECTOR_HORI_VERT {
     int mm=std::max(first.L, other.L)-std::min(first.L, other.L);
     if ((first.znak * other.znak) > 0){
         temp->znak=other.znak;
-            #pragma omp for
-            for(int i=std::max(first.L, other.L)-1;i>=0;i--){
-                temp->vector_.push_front((first.L > other.L ? first.vector_[i] : (i-mm>=0 ? first.vector_[i-mm] : 0)) +
-                                (other.L > first.L ? other.vector_[i] : (i-mm>=0 ? other.vector_[i-mm] : 0)));
-            }
-        /*std::cout<<"="<<std::endl;
-        for (int yy=0;yy<temp->vector_.size();++yy){
-            std::cout<<temp->vector_[yy]<<"  ";
-        }*/
+        temp->vector_.resize(temp->L);
+        #pragma omp parallel for
+        for(int i=std::max(first.L, other.L)-1;i>=0;i--){
+            temp->vector_[i]=((first.L > other.L ? first.vector_[i] : (i-mm>=0 ? first.vector_[i-mm] : 0)) +
+                                     (other.L > first.L ? other.vector_[i] : (i-mm>=0 ? other.vector_[i-mm] : 0)));
+        }
         std::cout<<std::endl;
             const int mx=std::max(first.vector_.size(),other.vector_.size())-1;
             const int thrs=2;
             const int del=(mx+1)/thrs+((mx+1)%thrs ? 1 : 0);
             #pragma omp parallel for num_threads(thrs)
-            for (int core=0;core<thrs;++core){
+            for (int core=0;core<thrs;++core){//std::cout<<"thr_num= "<<core<<", ";
                 for(int i=mx-core*del;((i>mx-(core+1)*del)&&(i>0));--i){
+
                     if (temp->vector_[i]>9){
                         temp->vector_[i-1]++;
                         temp->vector_[i]-=10;
@@ -118,6 +115,7 @@ namespace VECTOR_HORI_VERT {
                         break;
                     }
                 }
+                //std::cout<<" end ";
             }
         /*for(int i=std::max(first.L,other.L)-1;i>0;i--){
             if (temp->vector_[i]>9){
@@ -130,10 +128,8 @@ namespace VECTOR_HORI_VERT {
             temp->vector_.push_front(1);
 
             ++temp->L;
-        }/*std::cout<<","<<std::endl;
-        for (int yy=0;yy<temp->vector_.size();++yy){
-            std::cout<<temp->vector_[yy]<<"  ";
-        }*/
+        }
+
         return (*temp);
     }else{/*
         for (int yy=0;yy<first.vector_.size();++yy){
@@ -148,6 +144,10 @@ namespace VECTOR_HORI_VERT {
      }
   }
   VectorHori::VectorHori(const std::string& filename, int N)
+    : Vector(filename, N)
+  {
+  }
+  VectorHori::VectorHori(const std::string& filename, const std::string& N)
     : Vector(filename, N)
   {
   }

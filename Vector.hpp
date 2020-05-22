@@ -25,6 +25,7 @@ public:
     virtual void Output() const = 0;
     Vector(const std::string& filename);
     Vector(const std::string& filename, int N);
+    Vector(const std::string& filename, const std::string& N);
     Vector(const Vector& other);
     void operator=(const Vector& other);
     //Vector(Vector<T>&& tmp);               // rvalue reference in move constructor

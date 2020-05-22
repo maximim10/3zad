@@ -18,6 +18,10 @@ namespace VECTOR_HORI_VERT {
     : Vector(filename, N)
   {
   }
+  VectorVert::VectorVert(const std::string& filename, const std::string& N)
+    : Vector(filename, N)
+  {
+  }
   VectorVert::VectorVert(const std::string& filename)
     : Vector(filename)
   {

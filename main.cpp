@@ -10,6 +10,7 @@
 #include "omp.h"
 //#include <parallel.h>
 
+#include <ctime>
 #include "Vector.hpp"
 //#include "Vector.cpp"
 #include "VectorHori.hpp"
@@ -22,7 +23,7 @@
 
 using namespace VECTOR_HORI_VERT;
 int autotest(){
-    try
+    /*try
     {
     Vector* v1=new VectorHori("Test.txt",73);
     Vector* v2=new VectorHori("Text.txt",57);
@@ -43,7 +44,7 @@ int autotest(){
     catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return -1;
-    }
+    }*/return 0;
 }
 int main() {
     try {
@@ -69,18 +70,22 @@ int main() {
             strStream >> vectorType;
             std::string fileName;
             strStream >> fileName;
-            int el;
+            std::string el;
             strStream >> el;
             std::map< std::string, Factory* >::iterator curFactory;
             curFactory = factoryMap.find(vectorType);
             if (curFactory == factoryMap.end()) {
                 throw std::invalid_argument("Error! Wrong type of+ vector in file input.txt!\n");
             }
+            // std::cout<<"!"<<el<<"! ";
             Vector* curVect = curFactory->second->Create(fileName, el);
             vectorVector.push_back(curVect);
         }
         inputFile.close();
+        unsigned int start_time =  clock();
         VectorHori v=(*vectorVector[0]+*vectorVector[1]);
+        unsigned int end_time = clock();
+        std::cout<<" : "<<" : "<<end_time - start_time<<" : "<<" : "<<std::endl;
         v.Output();
         return 0;
   }

@@ -21,6 +21,7 @@ protected:
     friend VectorHori operator-(Vector& first, Vector& second);
     VectorHori(const std::string& filename, int N);
     VectorHori(const std::string& filename);
+    VectorHori(const std::string& filename, const std::string& N);
     VectorHori(const Vector& other);
     VectorHori(const VectorHori& other);
     ~VectorHori();
