@@ -23,7 +23,7 @@
 
 using namespace VECTOR_HORI_VERT;
 int autotest(){
-    /*try
+    try
     {
     Vector* v1=new VectorHori("Test.txt",73);
     Vector* v2=new VectorHori("Text.txt",57);
@@ -44,7 +44,7 @@ int autotest(){
     catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
         return -1;
-    }*/return 0;
+    }return 0;
 }
 int main() {
     try {
@@ -82,11 +82,23 @@ int main() {
             vectorVector.push_back(curVect);
         }
         inputFile.close();
+
+        //VectorHori v=(*vectorVector[0]+*vectorVector[1]);
+
+
+        //v.Output();
+        std::string ss1;
+        std::string ss2;
+        for (int i=0;i<1000000;i++){
+            ss1.push_back(i);
+            ss2.push_back(i+1);
+        }
+        Vector* v1=new VectorHori("Test.txt",ss1);
+        Vector* v2=new VectorHori("Text.txt",ss2);
         unsigned int start_time =  clock();
-        VectorHori v=(*vectorVector[0]+*vectorVector[1]);
+        VectorHori v3=*v1+*v2;
         unsigned int end_time = clock();
         std::cout<<" : "<<" : "<<end_time - start_time<<" : "<<" : "<<std::endl;
-        v.Output();
         return 0;
   }
   catch (const std::exception& e) {
