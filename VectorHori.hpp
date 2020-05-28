@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 #include <map>
+#include <ctime>
 #include "Vector.hpp"
 namespace VECTOR_HORI_VERT {
 

@@ -78,7 +78,7 @@ namespace VECTOR_HORI_VERT {
         return ((first)+*temp);
     }
   }
-  VectorHori operator+(Vector& first, Vector& other) {
+  VectorHori operator+(Vector& first, Vector& other) {unsigned int start_time =  clock();
     Vector* temp;                                                                                                                       \
     temp = new VectorHori(first.get_filename(),1);
     temp->L=std::max(first.L, other.L);
@@ -129,7 +129,8 @@ namespace VECTOR_HORI_VERT {
 
             ++temp->L;
         }
-
+        unsigned int end_time = clock();
+        std::cout<<" : "<<" : "<<end_time - start_time<<" : "<<" : "<<std::endl;
         return (*temp);
     }else{/*
         for (int yy=0;yy<first.vector_.size();++yy){
@@ -140,6 +141,8 @@ namespace VECTOR_HORI_VERT {
         }*/
         (*temp)=other;
         temp->znak=-(temp->znak);
+        unsigned int end_time = clock();
+        std::cout<<" : "<<" : "<<end_time - start_time<<" : "<<" : "<<std::endl;
         return (first-(*temp));
      }
   }

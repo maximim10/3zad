@@ -89,16 +89,16 @@ int main() {
         //v.Output();
         std::string ss1;
         std::string ss2;
-        for (int i=0;i<1000000;i++){
+        for (int i=0;i<3000000;i++){
             ss1.push_back(i);
             ss2.push_back(i+1);
         }
         Vector* v1=new VectorHori("Test.txt",ss1);
         Vector* v2=new VectorHori("Text.txt",ss2);
-        unsigned int start_time =  clock();
+
         VectorHori v3=*v1+*v2;
-        unsigned int end_time = clock();
-        std::cout<<" : "<<" : "<<end_time - start_time<<" : "<<" : "<<std::endl;
+
+
         return 0;
   }
   catch (const std::exception& e) {
